@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+
+    <style>
+
+    table, th, td {
+      border: 1px solid black;
+    }
+    </style>
+
+    <title>Shelf-aware</title>
+
+  </head>
+  
+  <body>
+
+    <h1 class="title">Shelf-aware Inventory System</h1>
+    <h2 id="">Add Inventory Editor</h2>
+    <form>
+      <p>
+        Book Control Number: <input type = "text", id = "bookControlNumber", required><br><br>
+        Book Title: <input type = "text", id = "bookTitle", required><br><br>
+        Book Author: <input type = "text", id = "bookAuthor", required><br><br><br><br>
+
+        Person Borrowed: <input type = "text", id = "personBorrowed", required><br><br>
+        Lendor: <input type = "text", id = "lendor", required><br><br>
+        Borrow Start Date: <input type = "text", id = "borrowStartDate", required><br><br>
+        Borrow End Date: <input type = "text", id = "borrowEndDate", required><br><br>
+      
+        <input type = "button" value = "Add Book" onclick = "OnAdd()">
+      </p>
+    </form><br><br>
+
+    <h2 id="">Library Inventory</h2>
+    <table id = "BookstoreTable">
+      <tr>
+        <th>Book Control Number</th>
+        <th>Person Borrowed</th>
+        <th>Book Title</th>
+        <th>Book Author</th>
+        <th>Lendor</th>
+        <th>Borrow Start Date</th>
+        <th>Borrow End Date</th>
+      </tr>
+    </table>
+      <script>
+          // A global editable inventory array for content
+          let Bookshelf = []
+
+          // A shortcut for creating a new innerHTML
+          function modify(id, innerHTML) {
+            document.getElementById(id).innerHTML = innerHTML
+          }
+
+          // A shortcut for getting the html element
+          function retrieve(id) {
+            return document.getElementById(id)
+          }
+
+          // A shortcut for getting the html element's text input
+          function getinner(id) {
+            return retrieve(id).value
+          }
+
+          // A global variable for the library inventory table
+          const LibraryInventory = retrieve("BookstoreTable")
+
+          // A global variable for the titles
+          const LibraryTitles = LibraryInventory.innerHTML
+
+          // A global variable for the book inventory editor
+          // const BookControlNumberSelection = retrieve("bookControlNumberSelect")
+
+          // A shortcut for JSON stringify function
+          function toSavingFormat(a) {
+              return JSON.stringify(a)
+          }
+
+          // Creates a field innerHTML for the inventory table
+          function createField(info) {
+            return `
+                <tr>
+                  <td>${info.bookControlNumber}</td>
+                  <td>${info.bookTitle}</td>
+                  <td>${info.bookAuthor}</td>
+                  <td>${info.personBorrowed}</td>
+                  <td>${info.lendor}</td>
+                  <td>${info.borrowStartDate}</td>
+                  <td>${info.borrowEndDate}</td>
+                </tr>
+              `
+          }
+
+          // Creates a field innerHTML for the BookControlNumberSelection
+          function createSelectionField(name) {
+              return `
+                  <option value=${name}>${name}</option>
+              `
+          }
+
+          function updateTableContent() {
+            LibraryInventory.innerHTML = LibraryTitles
+
+            for (let i = 0; i < Bookshelf.length; i++) {
+              const v = Bookshelf[i]
+              // console.log(v)
+              LibraryInventory.innerHTML += createField(v)
+            }
+
+            console.log(LibraryInventory.innerHTML)
+          }
+
+          /*function updateBookControlNumberEdit() {
+
+            BookControlNumberSelection.innerHTML = ""
+
+              for (let i = 0; i < Bookshelf.length; i++) {
+              const v = Bookshelf[i].bookControlNumber
+              BookControlNumberSelection.innerHTML += createSelectionField(v)
+              }
+          }*/
+
+          function OnAdd() {
+              
+              
+              const w = getinner("bookControlNumber")
+              let index = false
+              
+              for (let i = 0; i < Bookshelf.length; i++) {
+                  const v = Bookshelf[i].bookControlNumber
+                    console.log(v, w)
+                  if (v === w) {
+                      index = i
+                      break
+                  } 
+              }
+              
+              let updatecontent = {
+                    bookControlNumber: w,
+                    bookTitle: getinner("bookTitle"),
+                    bookAuthor: getinner("bookAuthor"),
+                    personBorrowed: getinner("personBorrowed") || "Not Borrowed",
+                    lendor: getinner("lendor") || "No Lendor",
+                    borrowStartDate: getinner("borrowStartDate") || "No Date Yet",
+                    borrowEndDate: getinner("borrowEndDate") || "No Date Yet"
+                  }
+              
+              if (index === false) {
+                  Bookshelf.push(updatecontent)
+              } else {
+                  Bookshelf[index] = updatecontent
+              }
+              updateTableContent()
+              // updateBookControlNumberEdit() 
+          }
+      </script>
+  </body>
+</html>
