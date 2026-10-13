@@ -130,7 +130,7 @@
               let index = false
               
               for (let i = 0; i < Bookshelf.length; i++) {
-                  const v = Bookshelf[i].bookControlNumber
+                  const v = Bookshelf[i].bookControlNumber 
                     console.log(v, w)
                   if (v === w) {
                       index = i
