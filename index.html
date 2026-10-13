@@ -229,12 +229,13 @@
     <table id = "BookstoreTable">
       <tr>
         <th>Book Control Number</th>
-        <th>Person Borrowed</th>
-        <th>Book Title</th>
         <th>Book Author</th>
+        <th>Book Title</th>
+        <th>Person Borrowed</th>
         <th>Lendor</th>
         <th>Borrow Start Date</th>
         <th>Borrow End Date</th>
+        <th>Action</th>
       </tr>
     </table>
       <script>
@@ -270,20 +271,48 @@
               return JSON.stringify(a)
           }
 
+          function onEdit(w) {
+              
+
+              console.log(w)
+              let info = false
+              
+              for (let i = 0; i < Bookshelf.length; i++) {
+                  const v = Bookshelf[i].bookControlNumber 
+                    console.log(v, w)
+                  if (v === w) {
+                      info = Bookshelf[i]
+                      break
+                  } 
+              }
+
+            if (!info) return;
+
+            for (const [k, v] of Object.entries(info)) {
+                retrieve(k).value = v ?? ""
+            }
+              
+            
+          }
+
           // Creates a field innerHTML for the inventory table
           function createField(info) {
-            return `
-                <tr>
-                  <td>${info.bookControlNumber}</td>
-                  <td>${info.bookTitle}</td>
-                  <td>${info.bookAuthor}</td>
-                  <td>${info.personBorrowed}</td>
-                  <td>${info.lendor}</td>
-                  <td>${info.borrowStartDate}</td>
-                  <td>${info.borrowEndDate}</td>
-                </tr>
-              `
+              return `
+                  <tr>
+                    <td>${info.bookControlNumber}</td>
+                    <td>${info.bookTitle}</td>
+                    <td>${info.bookAuthor}</td>
+                    <td>${info.personBorrowed}</td>
+                    <td>${info.lendor}</td>
+                    <td>${info.borrowStartDate}</td>
+                    <td>${info.borrowEndDate}</td>
+                    <td>
+                      <input type="button" onclick="onEdit('${info.bookControlNumber}')" value="Edit">
+                    </td>
+                  </tr>
+              `;
           }
+
 
           // Creates a field innerHTML for the BookControlNumberSelection
           function createSelectionField(name) {
@@ -301,7 +330,7 @@
               LibraryInventory.innerHTML += createField(v)
             }
 
-            console.log(LibraryInventory.innerHTML)
+            // console.log(LibraryInventory.innerHTML)
           }
 
           /*function updateBookControlNumberEdit() {
@@ -322,7 +351,7 @@
               
               for (let i = 0; i < Bookshelf.length; i++) {
                   const v = Bookshelf[i].bookControlNumber 
-                    console.log(v, w)
+                    // console.log(v, w)
                   if (v === w) {
                       index = i
                       break
