@@ -221,7 +221,7 @@
         Borrow Start Date: <input type = "text", id = "borrowStartDate", required><br><br>
         Borrow End Date: <input type = "text", id = "borrowEndDate", required><br><br>
       
-        <input type = "button" value = "Add Book" onclick = "OnAdd()">
+        <input type = "button" value = "Update Book" onclick = "OnAdd()">
       </p>
     </form><br><br>
 
@@ -239,8 +239,14 @@
       </tr>
     </table>
       <script>
+          
+          // A constant for the Bookshelf key database
+          
+          const BOOKSHELF_KEY = "BOOKSHELF_KEY"
+
+
           // A global editable inventory array for content
-          let Bookshelf = []
+          let Bookshelf = JSON.parse(localStorage.getItem(BOOKSHELF_KEY)) ?? []
 
           // A shortcut for creating a new innerHTML
           function modify(id, innerHTML) {
@@ -257,18 +263,35 @@
             return retrieve(id).value
           }
 
+          function save() {
+            localStorage.setItem(BOOKSHELF_KEY, JSON.stringify(Bookshelf))
+          }
+
           // A global variable for the library inventory table
           const LibraryInventory = retrieve("BookstoreTable")
 
           // A global variable for the titles
           const LibraryTitles = LibraryInventory.innerHTML
-
+          
+      
           // A global variable for the book inventory editor
           // const BookControlNumberSelection = retrieve("bookControlNumberSelect")
 
           // A shortcut for JSON stringify function
           function toSavingFormat(a) {
               return JSON.stringify(a)
+          }
+
+            function updateTableContent() {
+            LibraryInventory.innerHTML = LibraryTitles
+
+            for (let i = 0; i < Bookshelf.length; i++) {
+              const v = Bookshelf[i]
+              // console.log(v)
+              LibraryInventory.innerHTML += createField(v)
+            }
+
+            // console.log(LibraryInventory.innerHTML)
           }
 
           function onEdit(w) {
@@ -279,7 +302,7 @@
               
               for (let i = 0; i < Bookshelf.length; i++) {
                   const v = Bookshelf[i].bookControlNumber 
-                    console.log(v, w)
+                    //console.log(v, w)
                   if (v === w) {
                       info = Bookshelf[i]
                       break
@@ -292,6 +315,29 @@
                 retrieve(k).value = v ?? ""
             }
               
+            
+          }
+
+
+            function onDelete(w) {
+              
+    
+              for (let i = 0; i < Bookshelf.length; i++) {
+                  const v = Bookshelf[i].bookControlNumber 
+                    //console.log(v, w)
+                  if (v === w) {
+                    console.log("SUCCESS")
+                      Bookshelf.splice(i,1)
+                      break
+                  } 
+              }
+
+              
+              console.log(Bookshelf)
+          
+
+              updateTableContent()
+              save()
             
           }
 
@@ -308,6 +354,7 @@
                     <td>${info.borrowEndDate}</td>
                     <td>
                       <input type="button" onclick="onEdit('${info.bookControlNumber}')" value="Edit">
+                      <input type="button" onclick="onDelete('${info.bookControlNumber}')" value="Delete">
                     </td>
                   </tr>
               `;
@@ -321,17 +368,7 @@
               `
           }
 
-          function updateTableContent() {
-            LibraryInventory.innerHTML = LibraryTitles
-
-            for (let i = 0; i < Bookshelf.length; i++) {
-              const v = Bookshelf[i]
-              // console.log(v)
-              LibraryInventory.innerHTML += createField(v)
-            }
-
-            // console.log(LibraryInventory.innerHTML)
-          }
+        
 
           /*function updateBookControlNumberEdit() {
 
@@ -342,6 +379,9 @@
               BookControlNumberSelection.innerHTML += createSelectionField(v)
               }
           }*/
+
+
+        
 
           function OnAdd() {
               
@@ -374,8 +414,10 @@
                   Bookshelf[index] = updatecontent
               }
               updateTableContent()
-              // updateBookControlNumberEdit() 
+              save()
           }
+
+          updateTableContent()
       </script>
   </body>
 </html>
