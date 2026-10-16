@@ -3,6 +3,10 @@
 var i = 10;
 
 
+const externalInfo = {
+  UserLoginName: ""
+}
+
 let loginInfo =  JSON.parse(localStorage.getItem("LOGIN_INFO")) ?? []
 
  // A shortcut for creating a new innerHTML
@@ -45,7 +49,7 @@ function OnAdd() {
 
    console.log(loginInfo)
     
-  
+  externalInfo.UserLoginName = inputInfo.Username
 
   localStorage.setItem("LOGIN_INFO", JSON.stringify(loginInfo))
     window.location.href = 'index2.html'
