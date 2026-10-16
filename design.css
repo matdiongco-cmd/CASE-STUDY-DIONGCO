@@ -1,196 +1,274 @@
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
-  :root {
-    --red: #dc0505;
-    --red-dark: #b50404;
-    --bg: #fff6f1;
-    --card: #ffffff;
-    --text: #111111;
-    --muted: #6b6b6b;
-    --line: #d9d9d9;
-    --topbar-h: 68px;
-  }
+:root {
+  --red: #dc0505;
+  --red-dark: #b50404;
+  --bg: #fff6f1;
+  --card: #ffffff;
+  --text: #111111;
+  --muted: #6b6b6b;
+  --line: #d9d9d9;
+  --topbar-h: 68px;
+  --sidebar-w: 280px;
+}
 
-  * { box-sizing: border-box; }
+/* 1. Force the font on EVERY element, including form controls that don't inherit automatically */
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  font-family: 'DM Sans', Arial, sans-serif;
+}
 
-  html, body { margin: 0; }
+html, body { 
+  margin: 0; 
+  padding: 0;
+}
 
-  body {
-    font-family: 'DM Sans', Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: calc(var(--topbar-h) + 28px) 32px 48px 32px;
-    min-height: 100vh;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  padding: calc(var(--topbar-h) + 28px) 32px 48px calc(var(--sidebar-w) + 32px);
+  min-height: 100vh;
+}
 
-  /* ---------- Top search bar (full width) ---------- */
-  body::after {
-    content: "Search students, books, or staff...";
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: var(--topbar-h);
-    background: var(--card);
-    border-bottom: 1px solid var(--line);
-    color: #9a9a9a;
-    font-size: 15px;
-    line-height: var(--topbar-h);
-    padding-left: 70px;
-    z-index: 5;
-  }
+/* ---------- Fixed Left Sidebar (Aside) ---------- */
+/* ---------- Enhanced Sidebar Styling ---------- */
+aside {
+  position: fixed;
+  top: var(--topbar-h);
+  left: 0;
+  width: var(--sidebar-w);
+  height: calc(100vh - var(--topbar-h));
+  background-color: var(--red);
+  color: #ffffff;
+  padding: 24px 20px;
+  overflow-y: auto;
+  z-index: 4;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+}
 
-  /* ---------- Nav link ---------- */
-  a {
-    display: inline-block;
-    margin-bottom: 18px;
-    padding: 10px 18px;
-    background: var(--red);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 10px;
-    transition: background .15s;
-  }
-  a:hover { background: var(--red-dark); }
+/* Sidebar Logo / Brand Area */
+.sidebar-header {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
 
-  /* ---------- Page heading ---------- */
-  h1.title {
-    margin: 0 0 24px;
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-  h1.title::before {
-    content: "LIBRARY OVERVIEW";
-    display: block;
-    color: var(--red);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 6px;
-  }
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
 
-  /* ---------- Section titles ---------- */
-  h2 {
-    margin: 0 0 14px;
-    font-size: 17px;
-    font-weight: 700;
-  }
+/* Workspace Category Label */
+.nav-category {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 12px 10px;
+  text-transform: uppercase;
+}
 
-  /* ---------- Form card ---------- */
-  form {
-    background: var(--card);
-    border-radius: 14px;
-    padding: 24px 28px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-    max-width: 640px;
-  }
-  form p {
-    margin: 0;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.2;
-  }
+/* Navigation Links Container */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
-  input[type="text"] {
-    display: block;
-    width: 100%;
-    margin-top: 6px;
-    padding: 10px 12px;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--text);
-    background: #fafafa;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    outline: none;
-  }
-  input[type="text"]:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(220, 5, 5, 0.12);
-  }
+/* Individual Sidebar Links */
+aside a {
+  display: block;
+  margin-bottom: 0; /* Remove old margin */
+  padding: 11px 16px;
+  background: transparent; /* Clean transparent look by default */
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
 
-  input[type="button"] {
-    margin-top: 8px;
-    padding: 11px 24px;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    background: var(--red);
-    border: 0;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  input[type="button"]:hover { background: var(--red-dark); }
+/* Hover State */
+aside a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
 
-  /* ---------- Inventory table (Recently borrowed card) ---------- */
+/* Active Page State */
+aside a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ---------- Top search bar (full width) ---------- */
+body::after {
+  content: "Search students, books, or staff...";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  color: #9a9a9a;
+  font-size: 15px;
+  line-height: var(--topbar-h);
+  padding-left: 70px;
+  z-index: 5;
+}
+
+/* ---------- Nav link ---------- */
+a {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background .15s;
+}
+a:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* ---------- Page heading ---------- */
+h1.title {
+  margin: 0 0 24px;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+h1.title::before {
+  content: "LIBRARY OVERVIEW";
+  display: block;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+/* ---------- Section titles ---------- */
+h2 {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* ---------- Form card ---------- */
+form {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+form p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text);
+  background: #fafafa;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+}
+input[type="text"]:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(220, 5, 5, 0.12);
+}
+
+input[type="button"] {
+  margin-top: 8px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--red);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+input[type="button"]:hover { background: var(--red-dark); }
+
+/* ---------- Inventory table (Recently borrowed card) ---------- */
+#BookstoreTable {
+  width: 100%;
+  table-layout: fixed;
+  background: var(--card);
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
+  font-size: 13px;
+  min-height: 220px;
+}
+
+#BookstoreTable th,
+#BookstoreTable td {
+  border: 0;
+  text-align: left;
+  vertical-align: middle;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+#BookstoreTable th {
+  background: #eeeeee;
+  color: #777;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 20px 16px;
+  white-space: normal;
+}
+
+#BookstoreTable td {
+  padding: 18px 16px;
+  color: #444;
+  font-size: 13px;
+  background: var(--card);
+  border-bottom: 1px solid #e6e6e6;
+}
+
+#BookstoreTable tr:first-child th:first-child { padding-left: 24px; }
+#BookstoreTable td:first-child {
+  padding-left: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+#BookstoreTable td:last-child {
+  color: var(--red);
+  font-weight: 500;
+}
+
+#BookstoreTable tr:last-child td { border-bottom: 0; }
+#BookstoreTable tr:hover td { background: #fff7f3; }
+
+@media (max-width: 900px) {
   #BookstoreTable {
-    width: 100%;
-    table-layout: fixed;
-    background: var(--card);
-    border-collapse: separate;
-    border-spacing: 0;
-    border: 0;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.22);
-    font-size: 13px;
-    min-height: 220px;
+    display: block;
+    overflow-x: auto;
+    table-layout: auto;
   }
-
   #BookstoreTable th,
-  #BookstoreTable td {
-    border: 0;
-    text-align: left;
-    vertical-align: middle;
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-  }
-
-  #BookstoreTable th {
-    background: #eeeeee;
-    color: #777;
-    font-size: 11.5px;
-    font-weight: 500;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    padding: 20px 16px;
-    white-space: normal;
-  }
-
-  #BookstoreTable td {
-    padding: 18px 16px;
-    color: #444;
-    font-size: 13px;
-    background: var(--card);
-    border-bottom: 1px solid #e6e6e6;
-  }
-
-  #BookstoreTable tr:first-child th:first-child { padding-left: 24px; }
-  #BookstoreTable td:first-child {
-    padding-left: 24px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  #BookstoreTable td:last-child {
-    color: var(--red);
-    font-weight: 500;
-  }
-
-  #BookstoreTable tr:last-child td { border-bottom: 0; }
-
-  #BookstoreTable tr:hover td { background: #fff7f3; }
-
-  @media (max-width: 900px) {
-    #BookstoreTable {
-      display: block;
-      overflow-x: auto;
-      table-layout: auto;
-    }
-    #BookstoreTable th,
-    #BookstoreTable td { min-width: 130px; }
-  }
+  #BookstoreTable td { min-width: 130px; }
+}
