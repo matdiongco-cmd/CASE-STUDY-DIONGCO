@@ -52,6 +52,6 @@ function OnAdd() {
   externalInfo.UserLoginName = inputInfo.Username
 
   localStorage.setItem("LOGIN_INFO", JSON.stringify(loginInfo))
-    window.location.href = 'index2.html'
+    window.location.href = 'home.html'
   
 }
