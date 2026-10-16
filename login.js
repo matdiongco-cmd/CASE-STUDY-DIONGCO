@@ -48,6 +48,6 @@ function OnAdd() {
   
 
   localStorage.setItem("LOGIN_INFO", JSON.stringify(loginInfo))
-    window.location.href = 'index.html'
+    window.location.href = 'index2.html'
   
 }
