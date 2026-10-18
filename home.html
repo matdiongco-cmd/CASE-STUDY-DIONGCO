@@ -1,61 +1,127 @@
 <!DOCTYPE html>
 
-
 <html>
   <head>
-    
-<link rel="stylesheet" href="design.css" />
+
+    <link rel="stylesheet" href="design.css" />
     <title>Shelf-aware</title>
 
   </head>
   
   <body>
 
-     <aside>
-  <div class="sidebar-header">
-    <span class="logo-text">Shelf-aware</span>
-  </div>
-  
-  <p class="nav-category">WORKSPACE</p>
-  <nav class="sidebar-nav">
-    <a href="#" class="active">Dashboard</a>
-    <a href="index.html">Sign out</a>
-    <a href="neighbor.html">Neighbor Page</a>
-  </nav>
-</aside>
-    
-  <a href="neighbor.html">Go to Neighbor Page</a>
-    <h1 class="title">Shelf-aware Inventory System</h1>
-    <h2 id="">Add Inventory Editor</h2>
-    <form>
-      <p>
-        Book Control Number: <input type = "text", id = "bookControlNumber", required><br><br>
-        Book Title: <input type = "text", id = "bookTitle", required><br><br>
-        Book Author: <input type = "text", id = "bookAuthor", required><br><br><br><br>
-
-        Person Borrowed: <input type = "text", id = "personBorrowed", required><br><br>
-        Lendor: <input type = "text", id = "lendor", required><br><br>
-        Borrow Start Date: <input type = "text", id = "borrowStartDate", required><br><br>
-        Borrow End Date: <input type = "text", id = "borrowEndDate", required><br><br>
+    <aside>
+      <div class="sidebar-header">
+        <span class="logo-text">Shelf-aware</span>
+      </div>
       
-        <input type = "button" value = "Update Book" onclick = "OnAdd()">
-      </p>
-    </form><br><br>
+      <p class="nav-category">WORKSPACE</p>
+      <nav class="sidebar-nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="index.html">Sign out</a>
+        <a href="neighbor.html">Neighbor Page</a>
+      </nav>
+    </aside>
 
-    <h2 id="">Library Inventory</h2>
-    <table id = "BookstoreTable">
-      <tr>
-        <th>Book Control Number</th>
-        <th>Book Author</th>
-        <th>Book Title</th>
-        <th>Person Borrowed</th>
-        <th>Lendor</th>
-        <th>Borrow Start Date</th>
-        <th>Borrow End Date</th>
-        <th>Action</th>
-      </tr>
-    </table>
-      <script src="core.js"></script>
+    <main>
+
+      <a href="neighbor.html" class="page-link">Go to Neighbor Page</a>
+      <h1 id = "welcomeName"></h1>
+      <h1 class="title">Shelf-aware Inventory System</h1>
+      <h2 id="">Add Inventory Editor</h2>
+
+      <div class="editor-row">
+
+        <form>
+          <p>
+            Book Control Number: <input type = "text", id = "bookControlNumber", required><br><br>
+            Book Title: <input type = "text", id = "bookTitle", required><br><br>
+            Book Author: <input type = "text", id = "bookAuthor", required><br><br><br><br>
+
+            Person Borrowed: <input type = "text", id = "personBorrowed", required><br><br>
+            Lendor: <input type = "text", id = "lendor", required><br><br>
+            Borrow Start Date: <input type = "text", id = "borrowStartDate", required><br><br>
+            Borrow End Date: <input type = "text", id = "borrowEndDate", required><br><br>
+          
+            <input type = "button" value = "Update Book" onclick = "OnAdd()">
+          </p>
+        </form>
+
+        <section class="stats-panel">
+
+          <div class="stat-card">
+            <div class="stat-icon red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="8" r="3.2"/>
+                <path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/>
+                <path d="M15.5 4.9a3.2 3.2 0 0 1 0 6.2"/>
+                <path d="M18 14c1.8.7 3 2.3 3 5"/>
+              </svg>
+            </div>
+              <p class="stat-label">Books borrowed</p>
+              <p class="stat-value" id="statBorrowed">0</p>
+              <p class="stat-change">0% of all books</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="5" height="16" rx="1"/>
+                <rect x="10" y="4" width="5" height="16" rx="1"/>
+                <path d="M16.5 6.5l4 1-3.2 12.6-4-1z"/>
+              </svg>
+            </div>
+            <p class="stat-label">Total books</p>
+            <p class="stat-value" id="statBooks">3,156</p>
+            <p class="stat-change">+8.2% this month</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 14L4 9l5-5"/>
+                <path d="M4 9h10a6 6 0 0 1 0 12h-3"/>
+              </svg>
+            </div>
+            <p class="stat-label">Books returned</p>
+            <p class="stat-value" id="statReturned">3,156</p>
+            <p class="stat-change">+8.2% this month</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10" cy="8" r="3.2"/>
+                <path d="M4 20c0-3.3 2.7-5.5 6-5.5 1.2 0 2.3.3 3.2.8"/>
+                <path d="M18 15v6M15 18h6"/>
+              </svg>
+            </div>
+            <p class="stat-label">Librarians</p>
+            <p class="stat-value" id="statLibrarians">3,156</p>
+            <p class="stat-change">+8.2% this month</p>
+          </div>
+
+        </section>
+
+      </div><br><br>
+
+      <h2 id="">Library Inventory</h2>
+      <table id = "BookstoreTable">
+        <tr>
+          <th>Book Control Number</th>
+          <th>Book Title</th>
+          <th>Book Author</th>
+          <th>Person Borrowed</th>
+          <th>Lendor</th>
+          <th>Borrow Start Date</th>
+          <th>Borrow End Date</th>
+          <th>Action</th>
+        </tr>
+      </table>
+
+    </main>
+
+    <script src="core.js"></script>
 
   </body>
 </html>
