@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+
+    <link rel="stylesheet" href="design.css" />
+    <title>Shelf-aware | Librarians</title>
+
+  </head>
+
+  <body>
+
+    <aside>
+      <div class="sidebar-header">
+        <span class="logo-text">Shelf-aware</span>
+      </div>
+
+      <p class="nav-category">WORKSPACE</p>
+      <nav class="sidebar-nav">
+        <a href="#" class="active">Accounts</a>
+        <a href="index.html">Sign out</a>
+        <a href="home.html">Dashboard</a>
+      </nav>
+    </aside>
+
+    <main>
+
+      <h1 class="title">Librarian Accounts</h1>
+
+      <h2 id="count"></h2>
+      <table id="BookstoreTable">
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Action</th>
+        </tr>
+      </table>
+
+    </main>
+
+    <script>
+      // Same key the register script writes to
+      const LOGIN_KEY = "LOGIN_INFO"
+
+      let accounts = JSON.parse(localStorage.getItem(LOGIN_KEY)) ?? []
+
+      const table = document.getElementById("BookstoreTable")
+      const countLabel = document.getElementById("count")
+
+      // Keep the header row so it survives re-rendering
+      const headerRow = table.rows[0].cloneNode(true)
+
+      function save() {
+        localStorage.setItem(LOGIN_KEY, JSON.stringify(accounts))
+      }
+
+      function cell(text) {
+        const td = document.createElement("td")
+        td.textContent = text   // textContent, so typed names can't inject HTML
+        return td
+      }
+
+      function onDelete(i) {
+        if (!confirm(`Delete the account "${accounts[i].Username}"?`)) return
+        accounts.splice(i, 1)
+        save()
+        render()
+      }
+
+      function render() {
+        table.innerHTML = ""
+        table.appendChild(headerRow.cloneNode(true))
+
+        accounts.forEach((acc, i) => {
+          const tr = document.createElement("tr")
+
+          tr.appendChild(cell(i + 1))
+          tr.appendChild(cell(acc.Username))
+          tr.appendChild(cell("•".repeat(Math.min((acc.Password ?? "").length, 12))))
+
+          const actionTd = document.createElement("td")
+          const del = document.createElement("input")
+          del.type = "button"
+          del.value = "Delete"
+          del.addEventListener("click", () => onDelete(i))
+          actionTd.appendChild(del)
+          tr.appendChild(actionTd)
+
+          table.appendChild(tr)
+        })
+
+        if (accounts.length === 0) {
+          const tr = document.createElement("tr")
+          const td = cell("No librarian accounts yet. Register one first.")
+          td.colSpan = 4
+          tr.appendChild(td)
+          table.appendChild(tr)
+        }
+
+        countLabel.textContent = `${accounts.length} registered`
+      }
+
+      render()
+    </script>
+
+  </body>
+</html>
