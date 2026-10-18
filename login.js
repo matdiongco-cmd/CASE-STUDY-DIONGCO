@@ -1,11 +1,5 @@
 // Use the following to include this JavaScript file 
 // <script src="script1.js"></script>
-var i = 10;
-
-
-const externalInfo = {
-  UserLoginName: ""
-}
 
 let loginInfo =  JSON.parse(localStorage.getItem("LOGIN_INFO")) ?? []
 
@@ -27,31 +21,29 @@ let loginInfo =  JSON.parse(localStorage.getItem("LOGIN_INFO")) ?? []
 
 function OnAdd() {
 
+localStorage.setItem("Username", "")
 
   const inputInfo = {
     Username: getinner("Username"),
     Password: getinner("Password")
   }
 
-  let add = true
+  let add = false
 
   for (let v of loginInfo) {
       if (v.Username === inputInfo.Username) {
-          add = false
+          add = true
           break
       }
   }
-
  
-  if (add) {
-    loginInfo.push(inputInfo)
+  if (!add) {
+      alert("Register an account first, account does not exist.")
+      return
   }
 
-   console.log(loginInfo)
-    
-  externalInfo.UserLoginName = inputInfo.Username
-
-  localStorage.setItem("LOGIN_INFO", JSON.stringify(loginInfo))
+  console.log(loginInfo)
+  localStorage.setItem("Username", inputInfo.Username)
     window.location.href = 'home.html'
   
 }
