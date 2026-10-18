@@ -20,6 +20,7 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ---------- Sidebar ---------- */
@@ -70,8 +71,11 @@ aside {
 
 /* ---------- Main content ---------- */
 main {
-  margin-left: var(--sidebar-w);
   padding: 32px 32px 56px;
+}
+/* Only leave room for the sidebar on pages that have one */
+aside ~ main {
+  margin-left: var(--sidebar-w);
 }
 
 .page-link {
@@ -118,6 +122,63 @@ h2 {
   font-weight: 700;
 }
 
+/* ---------- Form ---------- */
+form {
+  width: 100%;
+  max-width: 640px;
+  padding: 24px 28px;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+form p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+/* Login / register form placed directly in the body: keep it small and centered */
+body > form {
+  max-width: 420px;
+  margin: 80px auto;
+}
+
+input[type="text"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: #fafafa;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+}
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(220, 5, 5, 0.12);
+}
+
+input[type="button"] {
+  margin-top: 8px;
+  padding: 11px 24px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--red);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+input[type="button"]:hover { background: var(--red-dark); }
+
 /* ---------- Form on the left, cards beside it on the right ---------- */
 .editor-row {
   display: flex;
@@ -128,7 +189,6 @@ h2 {
 .editor-row form {
   flex: 1;
   min-width: 0;
-  max-width: 640px;
 }
 
 /* ---------- Stats panel ---------- */
@@ -144,6 +204,7 @@ h2 {
 /* ---------- Stat card ---------- */
 .stat-card {
   width: 250px;
+  max-width: 100%;
   padding: 30px 28px 32px;
   background: #ffffff;
   border-radius: 18px;
@@ -187,52 +248,6 @@ h2 {
   font-size: 12px;
   color: #555;
 }
-/* ---------- Form ---------- */
-form {
-  padding: 24px 28px;
-  background: var(--card);
-  border-radius: 14px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
-}
-form p {
-  margin: 0;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.2;
-}
-
-input[type="text"] {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  padding: 10px 12px;
-  font-family: inherit;
-  font-size: 14px;
-  color: var(--text);
-  background: #fafafa;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  outline: none;
-}
-input[type="text"]:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 0 3px rgba(220, 5, 5, 0.12);
-}
-
-input[type="button"] {
-  margin-top: 8px;
-  padding: 11px 24px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  background: var(--red);
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background .15s;
-}
-input[type="button"]:hover { background: var(--red-dark); }
 
 /* ---------- Inventory table ---------- */
 #BookstoreTable {
@@ -288,17 +303,14 @@ input[type="button"]:hover { background: var(--red-dark); }
 }
 
 /* ---------- Responsive ---------- */
-
 @media (max-width: 1300px) {
   .editor-row { flex-direction: column; }
   .editor-row form { width: 100%; max-width: none; }
-  .stats-panel { margin-left: 0; grid-template-columns: repeat(auto-fit, 250px); }
-}
-
-@media (max-width: 1100px) {
-  .editor-row { flex-direction: column; }
-  .editor-row form { width: 100%; max-width: none; }
-  .stats-panel { margin-left: 0; grid-template-columns: repeat(auto-fit, 190px); }
+  .stats-panel {
+    width: 100%;
+    margin-left: 0;
+    grid-template-columns: repeat(auto-fit, 250px);
+  }
 }
 
 @media (max-width: 800px) {
@@ -308,7 +320,8 @@ input[type="button"]:hover { background: var(--red-dark); }
     padding: 20px 24px;
   }
   .sidebar-header { margin-bottom: 20px; }
-  main { margin-left: 0; padding: 24px 16px 40px; }
+  main,
+  aside ~ main { margin-left: 0; padding: 24px 16px 40px; }
   #BookstoreTable { display: block; overflow-x: auto; }
   #BookstoreTable th, #BookstoreTable td { min-width: 130px; }
 }
